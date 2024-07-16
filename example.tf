@@ -25,22 +25,28 @@ resource "aws_iam_group_policy_attachment" "admin_group_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
+#NEWLY ADDED
+data "aws_caller_identity" "current" {}
+
 module "admin_user_1" {
   source           = "./iam-group-users"
   user_name        = "admin-user-1"
   admin_group_name = aws_iam_group.admin_group.name
+  account_id       = data.aws_caller_identity.current.account_id
 }
 
 module "admin_user_2" {
   source           = "./iam-group-users"
   user_name        = "admin-user-2"
   admin_group_name = aws_iam_group.admin_group.name
+  account_id       = data.aws_caller_identity.current.account_id
 }
 
 module "admin_user_3" {
   source           = "./iam-group-users"
   user_name        = "admin-user-3"
   admin_group_name = aws_iam_group.admin_group.name
+  account_id       = data.aws_caller_identity.current.account_id
 }
 
 output "admin_user_1_access_key_id" {
